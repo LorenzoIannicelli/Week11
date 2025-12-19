@@ -35,7 +35,15 @@ class View():
                                                   color="white",
                                                   width=200)
 
+        self._ddLunghezza = ft.Dropdown(label="Lunghezza", width=200, color="orange", border_color="orange")
+        self._btnCercaOggetti = ft.ElevatedButton(text="Cerca Oggetti", on_click=self._controller.handleCercaOggetti,
+                                                  bgcolor="orange",
+                                                  color="white",
+                                                  width=200)
+
         self._page.controls.append(ft.Row([self._btnAnalizzaOggetti, self._txtIdOggetto, self._btnCompConnessa],
+                                          alignment=ft.MainAxisAlignment.CENTER))
+        self._page.controls.append(ft.Row([self._ddLunghezza, self._btnCercaOggetti],
                                           alignment=ft.MainAxisAlignment.CENTER))
 
         # List View where the reply is printed
