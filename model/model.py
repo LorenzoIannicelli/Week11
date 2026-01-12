@@ -1,3 +1,5 @@
+import copy
+
 from networkx.classes import neighbors
 
 from database.DAO import DAO
@@ -44,23 +46,22 @@ class Model:
         self.maxPeso = 0
         partenza = self.selected_object
 
-        self._ricorsione([partenza], [partenza], lunghezza)
+        self._ricorsione([partenza], lunghezza)
 
         return self.soluzione_migliore, self.maxPeso
 
-    def _ricorsione(self, parziale, visitati, lunghezza):
+    def _ricorsione(self, parziale, lunghezza):
         if len(parziale) == lunghezza:
             peso = self.calcolaPeso(parziale)
             if peso > self.maxPeso :
                 self.maxPeso = peso
-                self.soluzione_migliore = parziale
+                self.soluzione_migliore = copy.deepcopy(parziale)
+            return
 
         for v in neighbors(self._graph, parziale[-1]):
-            if v not in visitati and v.classification == parziale[-1].classification:
-                visitati.append(v)
+            if v not in parziale and v.classification == parziale[-1].classification:
                 parziale.append(v)
-                self._ricorsione(parziale, visitati, lunghezza)
-                visitati.pop()
+                self._ricorsione(parziale, lunghezza)
                 parziale.pop()
 
     def calcolaPeso(self, parziale):
